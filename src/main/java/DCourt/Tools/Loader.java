@@ -89,7 +89,7 @@ public class Loader {
         }
         try {
           DataInputStream in = new DataInputStream(con.getInputStream());
-          return decrypt(size >= 0 ? newLoad(in, size) : oldLoad(in));
+          return Cryptography.decrypt(size >= 0 ? newLoad(in, size) : oldLoad(in));
         } catch (Exception ex) {
           System.err.println(
               String.valueOf(
@@ -117,7 +117,7 @@ public class Loader {
     if (msg == null) {
       return new byte[0];
     }
-    String msg2 = encrypt(msg);
+    String msg2 = Cryptography.encrypt(msg);
     return msg2.getBytes();
   }
 
@@ -143,50 +143,5 @@ public class Loader {
                       String.valueOf(String.valueOf(String.valueOf(line)).concat("\n"))));
     }
     return msg;
-  }
-
-  static String encrypt(String from) {
-    String result = "";
-    int size = from.length();
-    int dx = 0;
-    for (int ix = 0; ix < size; ix++) {
-      int temp = (from.charAt(ix) + 128) & 127;
-      if (temp < 32) {
-        result =
-            String.valueOf(String.valueOf(result))
-                .concat(String.valueOf(String.valueOf((char) temp)));
-      } else {
-        result =
-            String.valueOf(String.valueOf(result))
-                .concat(
-                    String.valueOf(
-                        String.valueOf((char) ((((temp - 32) + ((size + dx) % 96)) % 96) + 32))));
-        dx++;
-      }
-    }
-    return result;
-  }
-
-  static String decrypt(String from) {
-    String result = "";
-    int size = from.length();
-    int dx = 0;
-    for (int ix = 0; ix < size; ix++) {
-      int temp = (from.charAt(ix) + 128) & 127;
-      if (temp < 32) {
-        result =
-            String.valueOf(String.valueOf(result))
-                .concat(String.valueOf(String.valueOf((char) temp)));
-      } else {
-        result =
-            String.valueOf(String.valueOf(result))
-                .concat(
-                    String.valueOf(
-                        String.valueOf(
-                            (char) (((((temp - 32) + 96) - ((size + dx) % 96)) % 96) + 32))));
-        dx++;
-      }
-    }
-    return result;
   }
 }
