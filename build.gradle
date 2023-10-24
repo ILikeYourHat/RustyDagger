@@ -20,6 +20,13 @@ application {
     mainClass = "DCourt.DCourtFrame"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+}
+
 jar {
     manifest {
         attributes(
