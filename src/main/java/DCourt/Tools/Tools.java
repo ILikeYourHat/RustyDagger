@@ -23,7 +23,6 @@ public class Tools {
   static Random rand;
   static String today;
   static boolean inBrowser;
-  static int jvmVersion;
   static String version;
   static Player player;
   static PlaceTable places;
@@ -49,7 +48,6 @@ public class Tools {
 
   public Tools(DCourtApplet who) {
     papa = who;
-    fixJvmVersion();
     chooseFont();
     prepareFonts();
     resourceTable = new Hashtable();
@@ -95,33 +93,6 @@ public class Tools {
     textF = new Font(primeFont, 0, 14);
     bigF = new Font(primeFont, Font.BOLD, 36);
     giantF = new Font(primeFont, Font.BOLD, 75);
-  }
-
-  public static int getJvmVersion() {
-    return jvmVersion;
-  }
-
-  static void fixJvmVersion() {
-    String vers = System.getProperty("java.version");
-    if (vers.startsWith("1.0")) {
-      jvmVersion = 0;
-    } else if (vers.startsWith("1.1")) {
-      jvmVersion = 1;
-    } else if (vers.startsWith("1.2")) {
-      jvmVersion = 2;
-    } else if (vers.startsWith("1.3")) {
-      jvmVersion = 3;
-    } else {
-      jvmVersion = 4;
-    }
-    System.out.println(
-        String.valueOf(
-            String.valueOf(
-                new StringBuffer("JVM version ")
-                    .append(vers)
-                    .append("  game=[")
-                    .append(jvmVersion)
-                    .append("]"))));
   }
 
   public static synchronized void setRegion(Screen next) {

@@ -23,13 +23,6 @@ public class StaticLayout implements LayoutManager {
   }
 
   public void layoutContainer(Container cont) {
-    if (Tools.getJvmVersion() < 2) {
-      int num = this.list.size();
-      for (int ix = 0; ix < num; ix++) {
-        getElement(ix).repaint();
-      }
-      return;
-    }
     int num2 = cont.getComponentCount();
     for (int ix2 = 0; ix2 < num2; ix2++) {
       cont.getComponent(ix2).repaint();

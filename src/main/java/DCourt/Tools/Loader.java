@@ -84,7 +84,7 @@ public class Loader {
         out.flush();
         out.close();
         int size = con.getContentLength();
-        if (size < 0 && Tools.getJvmVersion() > 0) {
+        if (size < 0) {
           return "";
         }
         try {
@@ -118,26 +118,14 @@ public class Loader {
       return new byte[0];
     }
     String msg2 = encrypt(msg);
-    if (Tools.getJvmVersion() > 0) {
-      return msg2.getBytes();
-    }
-    byte[] buf = new byte[msg2.length()];
-    msg2.getBytes(0, buf.length, buf, 0);
-    return buf;
+    return msg2.getBytes();
   }
 
   static String newLoad(DataInputStream in, int size) throws IOException {
     byte[] buf = new byte[size];
     in.readFully(buf);
     in.close();
-    if (Tools.getJvmVersion() > 0) {
-      return new String(buf);
-    }
-    String msg = "";
-    for (byte b : buf) {
-      msg = String.valueOf(String.valueOf(msg)).concat(String.valueOf(String.valueOf((char) b)));
-    }
-    return msg;
+    return new String(buf);
   }
 
   static String oldLoad(DataInputStream in) throws IOException {
@@ -153,9 +141,6 @@ public class Loader {
               .concat(
                   String.valueOf(
                       String.valueOf(String.valueOf(String.valueOf(line)).concat("\n"))));
-    }
-    if (Tools.getJvmVersion() < 1 && (cut = msg.indexOf("\n\n")) >= 0) {
-      msg = msg.substring(cut + 2);
     }
     return msg;
   }

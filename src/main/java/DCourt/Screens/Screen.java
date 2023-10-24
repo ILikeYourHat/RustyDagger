@@ -78,9 +78,7 @@ public abstract class Screen extends Panel implements GameStrings, ArmsTrait {
     if (this.status) {
       Tools.statusPic.repaint();
     }
-    if (Tools.getJvmVersion() >= 2) {
-      validate();
-    }
+    validate();
   }
 
   public void update(Graphics g) {
